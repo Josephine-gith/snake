@@ -1,4 +1,5 @@
 import pygame as pg
+from random import randint
 
 pg.init()
 screen = pg.display.set_mode((600, 600))
@@ -6,12 +7,13 @@ clock = pg.time.Clock()
 
 # dessin du snake
 snake = [(10, 15),(11, 15),(12, 15)]
+fruit=(randint(0,29),randint(0,29))
 d=(-1,0)
 # on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
 running = True
 while running:
 
-    clock.tick(1)
+    clock.tick(3)
 
     # on itère sur tous les évênements qui ont eu lieu depuis le précédent appel
     # ici donc tous les évènements survenus durant la seconde précédente
@@ -53,8 +55,16 @@ while running:
     #affichage du snake déplacé
     for c in snake:
         rect_c=rect = pg.Rect(c[0]*20, c[1]*20, width, height)
-        pg.draw.rect(screen, (255,0,0), rect_c)
+        pg.draw.rect(screen, (0,255,0), rect_c)
     
+    #création du nouveau fruit, si le précédent a été mangé
+    if snake[0]==fruit:
+        fruit=(randint(0,30), randint(0,30))
+        snake=snake+[snake[-1]]
+    #affichage du fruit
+    rect_f = pg.Rect(fruit[0]*20, fruit[1]*20, width, height)
+    pg.draw.rect(screen, (255, 0, 0), rect_f)
+
     pg.display.update()
 
 
