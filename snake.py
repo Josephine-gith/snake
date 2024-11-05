@@ -5,8 +5,8 @@ screen = pg.display.set_mode((600, 600))
 clock = pg.time.Clock()
 
 # dessin du snake
-snake = [(10, 15),(11, 15),(12, 15),]
-d=(1,0)
+snake = [(10, 15),(11, 15),(12, 15)]
+d=(-1,0)
 # on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
 running = True
 while running:
@@ -45,7 +45,6 @@ while running:
                 y = j*20 # coordonnée y (lignes) en pixels
             rect = pg.Rect(x, y, width, height)
             pg.draw.rect(screen, (255, 255, 255), rect)
-
 
     #mouvement du snake
     for i in range(1,len(snake)):
