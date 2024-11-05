@@ -1,6 +1,3 @@
-
-
-
 import pygame as pg
 
 pg.init()
@@ -26,24 +23,27 @@ while running:
             if event.key == pg.K_q:
                 running = False
 
+    #dessin du damier
     screen.fill((0,0,0))
-
     width = 20 # largeur du rectangle en pixels
     height = 20 # hauteur du rectangle en pixels
-    blanc = (255, 255, 255) # couleur blanc
-
     for i in range(30):
         for j in range(30):
             if (i+j)%2==0:
                 x = i*20 # coordonnée x (colonnes) en pixels
                 y = j*20 # coordonnée y (lignes) en pixels
             rect = pg.Rect(x, y, width, height)
-            pg.draw.rect(screen, blanc, rect)
+            pg.draw.rect(screen, (255, 255, 255), rect)
+
+    # dessin du snake
+    snake = [(10, 15),(11, 15),(12, 15),]
+    for c in snake:
+        rect_c=rect = pg.Rect(c[0]*20, c[1]*20, width, height)
+        pg.draw.rect(screen, (255,0,0), rect_c)
+    
     pg.display.update()
 
 
 # Enfin on rajoute un appel à pg.quit()
 # Cet appel va permettre à Pygame de "bien s'éteindre" et éviter des bugs sous Windows
 pg.quit()
-
-
