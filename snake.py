@@ -4,6 +4,9 @@ pg.init()
 screen = pg.display.set_mode((600, 600))
 clock = pg.time.Clock()
 
+# dessin du snake
+snake = [(10, 15),(11, 15),(12, 15),]
+d=(1,0)
 # on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
 running = True
 while running:
@@ -22,6 +25,14 @@ while running:
             # si la touche est "Q" on veut quitter le programme
             if event.key == pg.K_q:
                 running = False
+            if event.key == pg.K_UP:
+                d=(0,-1)
+            if event.key == pg.K_DOWN:
+                d=(0,1)
+            if event.key == pg.K_LEFT:
+                d=(-1,0)
+            if event.key == pg.K_RIGHT:
+                d=(1,0)
 
     #dessin du damier
     screen.fill((0,0,0))
@@ -35,8 +46,12 @@ while running:
             rect = pg.Rect(x, y, width, height)
             pg.draw.rect(screen, (255, 255, 255), rect)
 
-    # dessin du snake
-    snake = [(10, 15),(11, 15),(12, 15),]
+
+    #mouvement du snake
+    for i in range(1,len(snake)):
+        snake[-i]=snake[-i-1]
+    snake[0]=(snake[0][0]+d[0],snake[0][1]+d[1])
+    #affichage du snake déplacé
     for c in snake:
         rect_c=rect = pg.Rect(c[0]*20, c[1]*20, width, height)
         pg.draw.rect(screen, (255,0,0), rect_c)
