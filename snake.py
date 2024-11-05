@@ -5,15 +5,15 @@ pg.init()
 screen = pg.display.set_mode((600, 600))
 clock = pg.time.Clock()
 
-# dessin du snake
+# initialisation
 snake = [(10, 15),(11, 15),(12, 15)]
 fruit=(randint(0,29),randint(0,29))
 d=(-1,0)
+
 # on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
 running = True
 while running:
-
-    clock.tick(3)
+    clock.tick(10)
 
     # on itère sur tous les évênements qui ont eu lieu depuis le précédent appel
     # ici donc tous les évènements survenus durant la seconde précédente
