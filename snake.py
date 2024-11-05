@@ -1,13 +1,16 @@
 import pygame as pg
 from random import randint
 
+np =30
+tp =20
+
 pg.init()
-screen = pg.display.set_mode((600, 600))
+screen = pg.display.set_mode((np*tp,np*tp ))
 clock = pg.time.Clock()
 
 # initialisation
 snake = [(10, 15),(11, 15),(12, 15)]
-fruit=(randint(0,29),randint(0,29))
+fruit=(randint(0,np-1),randint(0,np-1))
 d=(-1,0)
 
 # on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
@@ -38,14 +41,12 @@ while running:
 
     #dessin du damier
     screen.fill((0,0,0))
-    width = 20 # largeur du rectangle en pixels
-    height = 20 # hauteur du rectangle en pixels
-    for i in range(30):
-        for j in range(30):
+    for i in range(np):
+        for j in range(np):
             if (i+j)%2==0:
-                x = i*20 # coordonnée x (colonnes) en pixels
-                y = j*20 # coordonnée y (lignes) en pixels
-            rect = pg.Rect(x, y, width, height)
+                x = i*tp # coordonnée x (colonnes) en pixels
+                y = j*tp # coordonnée y (lignes) en pixels
+            rect = pg.Rect(x, y, tp, tp)
             pg.draw.rect(screen, (255, 255, 255), rect)
 
     #mouvement du snake
@@ -54,15 +55,15 @@ while running:
     snake[0]=(snake[0][0]+d[0],snake[0][1]+d[1])
     #affichage du snake déplacé
     for c in snake:
-        rect_c=rect = pg.Rect(c[0]*20, c[1]*20, width, height)
+        rect_c=rect = pg.Rect(c[0]*tp, c[1]*tp, tp, tp)
         pg.draw.rect(screen, (0,255,0), rect_c)
     
     #création du nouveau fruit, si le précédent a été mangé
     if snake[0]==fruit:
-        fruit=(randint(0,30), randint(0,30))
+        fruit=(randint(0,np), randint(0,np))
         snake=snake+[snake[-1]]
     #affichage du fruit
-    rect_f = pg.Rect(fruit[0]*20, fruit[1]*20, width, height)
+    rect_f = pg.Rect(fruit[0]*tp, fruit[1]*tp, tp, tp)
     pg.draw.rect(screen, (255, 0, 0), rect_f)
 
     pg.display.update()
