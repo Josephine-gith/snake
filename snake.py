@@ -19,37 +19,42 @@ snake = [(10, 15),(11, 15),(12, 15)]
 fruit=(randint(0,NB_PIXELS-1),randint(0,NB_PIXELS-1))
 direction=(-1,0)
 
-# on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
-running = True
-while running:
-    clock.tick(3)
-
-    for event in pg.event.get():
-        # chaque évênement à un type qui décrit la nature de l'évênement
-        # un type de pg.QUIT signifie que l'on a cliqué sur la "croix" de la fenêtre
-        if event.type == pg.QUIT:
-            running = False
-        # un type de pg.KEYDOWN signifie que l'on a appuyé une touche du clavier
-        elif event.type == pg.KEYDOWN:
-            # si la touche est "Q" on veut quitter le programme
-            if event.key == pg.K_q:
-                running = False
-            if event.key == pg.K_UP:
-                direction=(0,-1)
-            if event.key == pg.K_DOWN:
-                direction=(0,1)
-            if event.key == pg.K_LEFT:
-                direction=(-1,0)
-            if event.key == pg.K_RIGHT:
-                direction=(1,0)
-
-    #dessin du damier
+# dessin du damier
+def draw_damier():
     screen.fill(BLACK)
     for i in range(NB_PIXELS):
         for j in range(NB_PIXELS):
             if (i+j)%2==0:
                 rect = pg.Rect(i*T_PIXELS, j*T_PIXELS, T_PIXELS, T_PIXELS)
                 pg.draw.rect(screen, WHITE, rect)
+
+def handle_event(event, running, direction):
+    if event.type == pg.QUIT:
+        running = False
+    # un type de pg.KEYDOWN signifie que l'on a appuyé une touche du clavier
+    elif event.type == pg.KEYDOWN:
+        # si la touche est "Q" on veut quitter le programme
+        if event.key == pg.K_q:
+            running = False
+        if event.key == pg.K_UP:
+            direction=(0,-1)
+        if event.key == pg.K_DOWN:
+            direction=(0,1)
+        if event.key == pg.K_LEFT:
+            direction=(-1,0)
+        if event.key == pg.K_RIGHT:
+            direction=(1,0)
+    return running, direction
+
+# on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
+running = True
+while running:
+    clock.tick(3)
+
+    for event in pg.event.get():
+        running, direction= handle_event(event, running, direction)
+
+    draw_damier()
 
     #mouvement du snake
     for i in range(1,len(snake)):
