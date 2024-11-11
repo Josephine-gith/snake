@@ -10,6 +10,7 @@ BLACK=(0,0,0)
 WHITE=(255,255,255)
 GREEN=(0,255,0)
 
+#initialisation de l'écran
 pg.init()
 screen = pg.display.set_mode((T_ECRAN, T_ECRAN))
 clock = pg.time.Clock()
@@ -19,7 +20,7 @@ snake = [(10, 15),(11, 15),(12, 15)]
 fruit=(randint(0,NB_PIXELS-1),randint(0,NB_PIXELS-1))
 direction=(-1,0)
 
-# dessin du damier
+# sous-fonctions utiles
 def draw_damier():
     screen.fill(BLACK)
     for i in range(NB_PIXELS):
