@@ -80,7 +80,4 @@ while running:
 
     pg.display.update()
 
-
-# Enfin on rajoute un appel à pg.quit()
-# Cet appel va permettre à Pygame de "bien s'éteindre" et éviter des bugs sous Windows
 pg.quit()
