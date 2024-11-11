@@ -10,11 +10,6 @@ BLACK=(0,0,0)
 WHITE=(255,255,255)
 GREEN=(0,255,0)
 
-#initialisation de l'écran
-pg.init()
-screen = pg.display.set_mode((T_ECRAN, T_ECRAN))
-clock = pg.time.Clock()
-
 # état initial du jeu
 snake = [(10, 15),(11, 15),(12, 15)]
 fruit=(randint(0,NB_PIXELS-1),randint(0,NB_PIXELS-1))
@@ -51,6 +46,7 @@ def move_snake(snake, direction):
     for i in range(1,len(snake)):
         snake[-i]=snake[-i-1]
     snake[0]=(snake[0][0]+direction[0],snake[0][1]+direction[1])
+    return snake
 
 def draw_snake(snake):
     for c in snake:
@@ -58,26 +54,31 @@ def draw_snake(snake):
         pg.draw.rect(screen, GREEN, rect_c)
 
 
-# on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
-running = True
-while running:
-    clock.tick(8)
-    for event in pg.event.get():
-        running, direction= handle_event(event, running, direction)
+if __name__ == "__main__":
+    #initialisation de l'écran
+    pg.init()
+    screen = pg.display.set_mode((T_ECRAN, T_ECRAN))
+    clock = pg.time.Clock()
 
-    draw_damier()
+    running = True
+    while running:
+        clock.tick(8)
+        for event in pg.event.get():
+            running, direction= handle_event(event, running, direction)
 
-    move_snake(snake,direction)
-    draw_snake(snake)
-    
-    #création du nouveau fruit, si le précédent a été mangé
-    if snake[0]==fruit:
-        fruit=(randint(0,NB_PIXELS), randint(0,NB_PIXELS))
-        snake=snake+[snake[-1]]
-    #affichage du fruit
-    rect_f = pg.Rect(fruit[0]*T_PIXELS, fruit[1]*T_PIXELS, T_PIXELS, T_PIXELS)
-    pg.draw.rect(screen, RED, rect_f)
+        draw_damier()
 
-    pg.display.update()
+        move_snake(snake,direction)
+        draw_snake(snake)
+        
+        #création du nouveau fruit, si le précédent a été mangé
+        if snake[0]==fruit:
+            fruit=(randint(0,NB_PIXELS), randint(0,NB_PIXELS))
+            snake=snake+[snake[-1]]
+        #affichage du fruit
+        rect_f = pg.Rect(fruit[0]*T_PIXELS, fruit[1]*T_PIXELS, T_PIXELS, T_PIXELS)
+        pg.draw.rect(screen, RED, rect_f)
 
-pg.quit()
+        pg.display.update()
+
+    pg.quit()
