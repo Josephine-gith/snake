@@ -47,24 +47,28 @@ def handle_event(event, running, direction):
             direction=(1,0)
     return running, direction
 
+def move_snake(snake, direction):
+    for i in range(1,len(snake)):
+        snake[-i]=snake[-i-1]
+    snake[0]=(snake[0][0]+direction[0],snake[0][1]+direction[1])
+
+def draw_snake(snake):
+    for c in snake:
+        rect_c = pg.Rect(c[0]*T_PIXELS, c[1]*T_PIXELS, T_PIXELS, T_PIXELS)
+        pg.draw.rect(screen, GREEN, rect_c)
+
+
 # on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
 running = True
 while running:
-    clock.tick(3)
-
+    clock.tick(8)
     for event in pg.event.get():
         running, direction= handle_event(event, running, direction)
 
     draw_damier()
 
-    #mouvement du snake
-    for i in range(1,len(snake)):
-        snake[-i]=snake[-i-1]
-    snake[0]=(snake[0][0]+direction[0],snake[0][1]+direction[1])
-    #affichage du snake déplacé
-    for c in snake:
-        rect_c=rect = pg.Rect(c[0]*T_PIXELS, c[1]*T_PIXELS, T_PIXELS, T_PIXELS)
-        pg.draw.rect(screen, GREEN, rect_c)
+    move_snake(snake,direction)
+    draw_snake(snake)
     
     #création du nouveau fruit, si le précédent a été mangé
     if snake[0]==fruit:
