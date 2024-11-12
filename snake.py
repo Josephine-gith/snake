@@ -1,6 +1,6 @@
 import pygame as pg
 from random import randint
-from collections import deque
+from collections import deque, namedtuple
 
 # constantes utiles
 NB_PIXELS =30
@@ -13,9 +13,10 @@ GREEN=(0,255,0)
 EPS=2
 
 # état initial du jeu
-snake = deque([(10, 15),(11, 15),(12, 15)])
-fruit=(randint(0,NB_PIXELS-1),randint(0,NB_PIXELS-1))
-direction=(-1,0)
+Cell=namedtuple("Cell", ["x","y"])
+snake = deque([Cell(x=10,y=15),Cell(x=11,y=15),Cell(x=12,y=15)])
+fruit=Cell(x=randint(0,NB_PIXELS-1),y=randint(0,NB_PIXELS-1))
+direction=Cell(x=-1,y=0)
 acc=2
 
 # sous-fonctions utiles
@@ -35,20 +36,20 @@ def handle_event(event, running, direction):
         # si la touche est "Q" on veut quitter le programme
         if event.key == pg.K_q:
             running = False
-        if event.key == pg.K_UP and direction!=(0,1):
-            direction=(0,-1)
-        if event.key == pg.K_DOWN and direction!=(0,-1):
-            direction=(0,1)
-        if event.key == pg.K_LEFT and direction!=(1,0):
-            direction=(-1,0)
-        if event.key == pg.K_RIGHT and direction!=(-1,0):
-            direction=(1,0)
+        if event.key == pg.K_UP and direction!=Cell(x=0,y=1):
+            direction=Cell(x=0,y=-1)
+        if event.key == pg.K_DOWN and direction!=Cell(x=0,y=-1):
+            direction=Cell(x=0,y=1)
+        if event.key == pg.K_LEFT and direction!=Cell(x=1,y=0):
+            direction=Cell(x=-1,y=0)
+        if event.key == pg.K_RIGHT and direction!=Cell(x=-1,y=0):
+            direction=Cell(x=1,y=0)
     return running, direction
 
 def move_snake(snake, direction):
     for i in range(1,len(snake)):
         snake[-i]=snake[-i-1]
-    snake[0]=(snake[0][0]+direction[0],snake[0][1]+direction[1])
+    snake[0]=Cell(x=snake[0][0]+direction[0],y=snake[0][1]+direction[1])
     return snake
 
 def draw_snake(snake):
