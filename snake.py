@@ -1,5 +1,6 @@
 import pygame as pg
 from random import randint
+from collections import deque
 
 # constantes utiles
 NB_PIXELS =30
@@ -11,7 +12,7 @@ WHITE=(255,255,255)
 GREEN=(0,255,0)
 
 # état initial du jeu
-snake = [(10, 15),(11, 15),(12, 15)]
+snake = deque([(10, 15),(11, 15),(12, 15)])
 fruit=(randint(0,NB_PIXELS-1),randint(0,NB_PIXELS-1))
 direction=(-1,0)
 
@@ -74,7 +75,7 @@ if __name__ == "__main__":
         #création du nouveau fruit, si le précédent a été mangé
         if snake[0]==fruit:
             fruit=(randint(0,NB_PIXELS-1), randint(0,NB_PIXELS-1))
-            snake=snake+[snake[-1]]
+            snake.append(snake[-1])
         #affichage du fruit
         rect_f = pg.Rect(fruit[0]*T_PIXELS, fruit[1]*T_PIXELS, T_PIXELS, T_PIXELS)
         pg.draw.rect(screen, RED, rect_f)
