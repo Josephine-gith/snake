@@ -10,11 +10,13 @@ RED = (255,0,0)
 BLACK=(0,0,0)
 WHITE=(255,255,255)
 GREEN=(0,255,0)
+EPS=2
 
 # état initial du jeu
 snake = deque([(10, 15),(11, 15),(12, 15)])
 fruit=(randint(0,NB_PIXELS-1),randint(0,NB_PIXELS-1))
 direction=(-1,0)
+acc=2
 
 # sous-fonctions utiles
 def draw_damier():
@@ -33,13 +35,13 @@ def handle_event(event, running, direction):
         # si la touche est "Q" on veut quitter le programme
         if event.key == pg.K_q:
             running = False
-        if event.key == pg.K_UP:
+        if event.key == pg.K_UP and direction!=(0,1):
             direction=(0,-1)
-        if event.key == pg.K_DOWN:
+        if event.key == pg.K_DOWN and direction!=(0,-1):
             direction=(0,1)
-        if event.key == pg.K_LEFT:
+        if event.key == pg.K_LEFT and direction!=(1,0):
             direction=(-1,0)
-        if event.key == pg.K_RIGHT:
+        if event.key == pg.K_RIGHT and direction!=(-1,0):
             direction=(1,0)
     return running, direction
 
@@ -57,6 +59,8 @@ def draw_snake(snake):
 def game_over(snake, running):
     if snake[-1] in list(snake)[:-2]:
         running = False
+    elif snake[0][0] in [-1,NB_PIXELS] or snake[0][-1] in [-1,NB_PIXELS]:
+        running = False
     return running
 
 
@@ -68,7 +72,7 @@ if __name__ == "__main__":
 
     running = True
     while running:
-        clock.tick(5)
+        clock.tick(acc*EPS)
         for event in pg.event.get():
             running, direction= handle_event(event, running, direction)
 
@@ -78,9 +82,10 @@ if __name__ == "__main__":
         draw_snake(snake)
         
         #création du nouveau fruit, si le précédent a été mangé
-        if snake[0]==fruit:
+        if fruit in snake:
             fruit=(randint(0,NB_PIXELS-1), randint(0,NB_PIXELS-1))
             snake.append(snake[-1])
+            acc=acc+1
         #affichage du fruit
         rect_f = pg.Rect(fruit[0]*T_PIXELS, fruit[1]*T_PIXELS, T_PIXELS, T_PIXELS)
         pg.draw.rect(screen, RED, rect_f)
