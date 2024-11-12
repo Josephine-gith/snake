@@ -73,7 +73,7 @@ if __name__ == "__main__":
         
         #création du nouveau fruit, si le précédent a été mangé
         if snake[0]==fruit:
-            fruit=(randint(0,NB_PIXELS), randint(0,NB_PIXELS))
+            fruit=(randint(0,NB_PIXELS-1), randint(0,NB_PIXELS-1))
             snake=snake+[snake[-1]]
         #affichage du fruit
         rect_f = pg.Rect(fruit[0]*T_PIXELS, fruit[1]*T_PIXELS, T_PIXELS, T_PIXELS)
