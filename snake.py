@@ -54,6 +54,11 @@ def draw_snake(snake):
         rect_c = pg.Rect(c[0]*T_PIXELS, c[1]*T_PIXELS, T_PIXELS, T_PIXELS)
         pg.draw.rect(screen, GREEN, rect_c)
 
+def game_over(snake, running):
+    if snake[-1] in list(snake)[:-2]:
+        running = False
+    return running
+
 
 if __name__ == "__main__":
     #initialisation de l'écran
@@ -63,7 +68,7 @@ if __name__ == "__main__":
 
     running = True
     while running:
-        clock.tick(8)
+        clock.tick(5)
         for event in pg.event.get():
             running, direction= handle_event(event, running, direction)
 
@@ -79,6 +84,8 @@ if __name__ == "__main__":
         #affichage du fruit
         rect_f = pg.Rect(fruit[0]*T_PIXELS, fruit[1]*T_PIXELS, T_PIXELS, T_PIXELS)
         pg.draw.rect(screen, RED, rect_f)
+
+        running = game_over(snake,running)
 
         pg.display.update()
 
